@@ -1,55 +1,132 @@
-# Mintlify Starter Kit
+# LiteLLM Mintlify Docs
 
-Use the starter kit to get your docs deployed and ready to customize.
+This directory contains the **Mintlify** version of the LiteLLM documentation, migrating from the existing Docusaurus site at `docs/my-website/`.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
-
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
-
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
+## Local Development
 
 ```bash
-npx skills add https://mintlify.com/docs
+# Install Mintlify CLI
+npm install -g mintlify
+
+# Run local dev server from this directory
+mintlify dev
 ```
 
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+## Structure
 
 ```
-npm i -g mint
+mintlify-docs/
+├── docs.json              # Main config: navigation, colors, branding
+├── index.mdx              # Home / Getting Started page
+├── favicon.ico            # Site favicon
+├── logo/                  # Logo files (light/dark variants)
+├── images/                # Static images
+├── snippets/              # Reusable MDX snippets
+├── completion/            # completion() SDK docs
+├── providers/             # Provider-specific docs (OpenAI, Anthropic, Bedrock, etc.)
+├── proxy/                 # LiteLLM Proxy/Gateway docs
+├── guides/                # How-to guides
+├── tutorials/             # Step-by-step tutorials
+├── integrations/          # Third-party integrations overview
+├── observability/         # Observability integrations (Langfuse, MLflow, etc.)
+├── caching/               # Caching docs
+├── embedding/             # Embedding docs
+├── pass_through/          # Pass-through endpoint docs
+├── secret_managers/       # Secret manager integrations
+├── troubleshoot/          # Troubleshooting guides
+├── adding_provider/       # Contributing: adding providers
+├── contributing/          # Contributing guides
+├── extras/                # Additional docs
+├── langchain/             # LangChain integration
+├── vector_stores/         # Vector store docs
+├── search/                # Search endpoint docs
+├── anthropic_unified/     # Anthropic unified API docs
+├── a2a/                   # A2A Agent Gateway docs
+├── mcp/                   # Model Context Protocol docs
+└── projects/              # Projects built on LiteLLM
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+## Migration from Docusaurus
 
+### What changed
+
+| Docusaurus | Mintlify |
+|---|---|
+| `docusaurus.config.js` + `sidebars.js` | `docs.json` |
+| `@theme/Tabs` / `@theme/TabItem` | `<Tabs>` / `<Tab>` (built-in) |
+| `:::note`, `:::warning` admonitions | `<Note>`, `<Warning>`, `<Tip>`, `<Info>` |
+| `.md` files | `.mdx` files (`.md` also supported) |
+| Mermaid diagrams | Mermaid supported natively |
+| Custom CSS | `docs.json` colors + Mintlify theming |
+
+### Migrating a doc page
+
+1. **Copy** the `.md` file from `docs/my-website/docs/` to the corresponding path here
+2. **Update frontmatter** — keep `title` and `description`, remove Docusaurus-specific fields
+3. **Replace component imports**:
+   - Remove `import Tabs from '@theme/Tabs'` and `import TabItem from '@theme/TabItem'`
+   - Replace `<Tab title="Y&quot;>` with `<Tab title=&quot;Y">`
+   - Replace `<Tabs>` stays as `<Tabs>`, but wrap in Mintlify's built-in
+4. **Replace admonitions**:
+   - `<Note title="... :::` → `<Note>...</Note>`">
+   - `
+</Note>warning ... :::` → `<Warning>...</Warning>`
+   - `<Tip title="... :::` → `<Tip>...</Tip>`">
+   - `
+</Tip>info ... :::` → `<Info>...</Info>`
+5. **Images**: Move to `images/` directory, update paths
+
+### Bulk migration script
+
+For bulk migration, run from the repo root:
+
+```bash
+# Copy all docs content
+cp -r docs/my-website/docs/* mintlify-docs/
+
+# Copy static images
+cp -r docs/my-website/static/img/* mintlify-docs/images/
+
+# Copy favicon
+cp docs/my-website/static/img/favicon.ico mintlify-docs/
+
+# Copy logo
+cp docs/my-website/static/img/logo.svg mintlify-docs/logo/
 ```
-mint dev
+
+After copying, run a search-replace for Docusaurus-specific syntax:
+
+```bash
+# Replace Docusaurus tab imports (can be safely removed in Mintlify)
+find mintlify-docs -name "*.md" -o -name "*.mdx" | \
+  xargs sed -i '' \
+  -e '/^import Tabs from/d' \
+  -e '/^import TabItem from/d' \
+  -e 's/<Tab title="\([^">/<\/Tab>/g'
+
+# Replace Docusaurus admonitions
+find mintlify-docs -name "*.md" -o -name "*.mdx" | \
+  xargs sed -i '' \
+  -e 's/:::note/<Note>/g' \
+  -e 's/:::warning/<Warning>/g' \
+  -e 's/:::tip/<Tip>/g' \
+  -e 's/:::info/<Info>/g' \
+  -e 's/:::danger/<Warning>/g' \
+  -e 's/:::/>/g'
 ```
 
-View your local preview at `http://localhost:3000`.
+> **Note**: The sed replacements are approximate — some pages with complex JSX or custom components will need manual review.
 
-## Publishing changes
+## Key Mintlify Features to Use
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+- **`<CodeGroup>`** — group multiple code blocks by language
+- **`<Card>` / `<CardGroup>`** — feature cards for landing pages
+- **`<Accordion>`** — collapsible sections
+- **`<Tabs>` / `<Tab>`** — tabbed content (replaces Docusaurus Tabs)
+- **`<Note>`, `<Warning>`, `<Tip>`, `<Info>`** — callout boxes
+- **API playground** — auto-generated from OpenAPI spec (add `openapi.yaml`)
+- **Mermaid diagrams** — supported natively, no plugin needed
 
-## Need help?
+## Deployment
 
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+Mintlify deploys automatically from GitHub. Connect the repo via the [Mintlify dashboard](https://dashboard.mintlify.com) and set the docs directory to `mintlify-docs/`.
