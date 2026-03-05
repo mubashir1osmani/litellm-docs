@@ -33,7 +33,7 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "💸 LLM Model Cost Map",
+    "name": "\ud83d\udcb8 LLM Model Cost Map",
     "url": "https://models.litellm.ai/"
   },
   "anchors": [
@@ -60,7 +60,9 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["index"]
+            "pages": [
+              "index"
+            ]
           },
           {
             "group": "LiteLLM Python SDK",
@@ -856,7 +858,6 @@
                 ]
               },
               "observability/langfuse_integration",
-              "observability/langfuse_integration",
               "observability/lunary_integration",
               "observability/mlflow",
               "observability/helicone_integration",
@@ -867,20 +868,15 @@
               "observability/athina_integration",
               "observability/braintrust",
               "observability/datadog",
-              "observability/datadog",
-              "observability/mlflow",
               "observability/gcs_bucket_integration",
               "observability/greenscale_integration",
               "observability/humanloop",
               "observability/lago",
               "observability/logfire_integration",
-              "observability/lago",
               "observability/opik_integration",
               "observability/opentelemetry_integration",
               "observability/promptlayer_integration",
-              "observability/gcs_bucket_integration",
               "observability/sentry",
-              "observability/opentelemetry_integration",
               "observability/wandb_integration",
               "observability/scrub_data"
             ]
@@ -1004,28 +1000,16 @@
               "tutorials/litellm_qwen_code_cli",
               "tutorials/openai_codex"
             ]
-          },
-          {
-            "group": "Agent SDKs",
-            "pages": [
-              "tutorials/openai_agents_sdk",
-              "tutorials/claude_agent_sdk",
-              "tutorials/copilotkit_sdk",
-              "tutorials/google_adk",
-              "tutorials/livekit_xai_realtime",
-              "projects/openai-agents"
-            ]
           }
         ]
       },
       {
         "tab": "API Reference",
-        "openapi": "/openapi.json",
         "groups": [
           {
             "group": "Overview",
             "pages": [
-              "api-reference/overview"
+              "api-reference/introduction"
             ]
           },
           {
@@ -1036,15 +1020,17 @@
             ]
           },
           {
-            "group": "Embeddings",
+            "group": "Embeddings & Rerank",
             "pages": [
-              "api-reference/endpoint/embeddings"
+              "api-reference/endpoint/embeddings",
+              "api-reference/endpoint/rerank"
             ]
           },
           {
             "group": "Images",
             "pages": [
-              "api-reference/endpoint/image-generation"
+              "api-reference/endpoint/image-generation",
+              "api-reference/endpoint/image-edits"
             ]
           },
           {
@@ -1058,6 +1044,38 @@
             "group": "Models",
             "pages": [
               "api-reference/endpoint/models-list"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI Tools",
+        "groups": [
+          {
+            "group": "Coding Assistants",
+            "pages": [
+              "ai-tools/claude-code",
+              "ai-tools/cursor",
+              "ai-tools/windsurf",
+              "ai-tools/github-copilot",
+              "ai-tools/opencode",
+              "ai-tools/openai-codex"
+            ]
+          },
+          {
+            "group": "Chat UIs",
+            "pages": [
+              "ai-tools/open-webui"
+            ]
+          },
+          {
+            "group": "Agent SDKs",
+            "pages": [
+              "tutorials/openai_agents_sdk",
+              "tutorials/claude_agent_sdk",
+              "tutorials/copilotkit_sdk",
+              "tutorials/google_adk",
+              "tutorials/livekit_xai_realtime"
             ]
           }
         ]

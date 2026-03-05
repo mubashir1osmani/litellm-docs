@@ -1,0 +1,42 @@
+---
+title: "Cursor"
+description: "Use LiteLLM Proxy as an OpenAI-compatible backend for Cursor — route to any model and track AI coding costs."
+---
+
+LiteLLM Proxy is fully compatible with Cursor's OpenAI API settings. Point Cursor at your proxy to use any of 100+ LLMs (GPT-4o, Claude, Gemini, Llama, etc.) while tracking per-developer spend and adding guardrails.
+
+## Setup
+
+**1. Start LiteLLM Proxy with your models**
+
+```yaml litellm-config.yaml
+model_list:
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: claude-opus-4-5
+    litellm_params:
+      model: anthropic/claude-opus-4-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+```
+
+```bash
+litellm --config litellm-config.yaml --port 4000
+```
+
+**2. Configure Cursor**
+
+In Cursor **Settings → Models → OpenAI API Key**:
+
+- **API Key**: your LiteLLM virtual key (e.g. `sk-litellm-xxxx`)
+- **Base URL**: `http://your-proxy:4000`
+
+**3. Select your model** in Cursor and start coding. All requests route through LiteLLM.
+
+## Full Tutorial
+
+<Card title="Cursor Integration Guide" icon="arrow-right" href="/tutorials/cursor_integration">
+  Step-by-step setup with screenshots, team key management, and cost tracking
+</Card>

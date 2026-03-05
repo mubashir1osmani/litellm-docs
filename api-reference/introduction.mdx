@@ -1,0 +1,86 @@
+---
+title: "API Introduction"
+description: "LiteLLM Proxy exposes an OpenAI-compatible REST API for 100+ LLM providers."
+---
+
+The LiteLLM Proxy API is served from your proxy host (default `http://0.0.0.0:4000`). It is **fully OpenAI-compatible** — any OpenAI SDK or tool works without code changes.
+
+## Authentication
+
+```bash
+Authorization: Bearer YOUR_LITELLM_KEY
+```
+
+Create keys in the [Admin UI](/proxy/ui) or via the [Virtual Keys API](/proxy/virtual_keys).
+
+## Base URL
+
+```
+http://your-proxy-host:4000
+```
+
+## Quick example
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-litellm-xxxx",
+    base_url="http://your-proxy:4000/v1"
+)
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+```
+
+```typescript TypeScript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: 'sk-litellm-xxxx',
+  baseURL: 'http://your-proxy:4000/v1',
+});
+
+const response = await client.chat.completions.create({
+  model: 'gpt-4o',
+  messages: [{ role: 'user', content: 'Hello!' }],
+});
+```
+
+```bash cURL
+curl http://your-proxy:4000/v1/chat/completions \
+  -H "Authorization: Bearer sk-litellm-xxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+</CodeGroup>
+
+## Available endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/chat/completions` | POST | Chat with any LLM |
+| `/v1/completions` | POST | Text completions (legacy) |
+| `/v1/embeddings` | POST | Generate embeddings |
+| `/v1/images/generations` | POST | Image generation |
+| `/v1/images/edits` | POST | Image editing |
+| `/v1/audio/transcriptions` | POST | Speech to text |
+| `/v1/audio/speech` | POST | Text to speech |
+| `/v1/models` | GET | List available models |
+| `/v1/batches` | POST | Async batch requests |
+| `/v1/files` | POST/GET | File management |
+| `/v1/responses` | POST | OpenAI Responses API |
+| `/v1/rerank` | POST | Rerank results |
+| `/health` | GET | Proxy health check |
+
+## Interactive Swagger UI
+
+<Card title="Full API Reference (Swagger)" icon="code" href="https://litellm-api.up.railway.app/">
+  Explore every endpoint interactively with request/response schemas
+</Card>

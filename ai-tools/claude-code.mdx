@@ -1,0 +1,83 @@
+---
+title: "Claude Code"
+description: "Use LiteLLM Proxy as a gateway for Claude Code — route to any model, track costs per developer, and add guardrails."
+---
+
+LiteLLM Proxy gives you a centralized gateway for Claude Code across your engineering team. Route Claude Code to any supported model (Anthropic direct, Bedrock, Vertex AI), track spend per developer, and enforce guardrails.
+
+## Why use LiteLLM with Claude Code?
+
+<CardGroup cols={2}>
+  <Card title="Cost Tracking" icon="chart-line">
+    Track exactly how much each developer spends on Claude Code, broken down by key/team
+  </Card>
+  <Card title="Model Flexibility" icon="arrows-left-right">
+    Route Claude Code to Bedrock, Vertex AI, or any Anthropic-compatible provider
+  </Card>
+  <Card title="Guardrails" icon="shield">
+    Add content filtering, PII masking, or custom guardrails to all Claude Code traffic
+  </Card>
+  <Card title="Caching" icon="bolt">
+    Prompt caching and semantic caching to reduce costs on repeated queries
+  </Card>
+</CardGroup>
+
+## Quick Setup
+
+**1. Start LiteLLM Proxy**
+
+```yaml litellm-config.yaml
+model_list:
+  - model_name: claude-opus-4-5
+    litellm_params:
+      model: anthropic/claude-opus-4-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+```
+
+```bash
+litellm --config litellm-config.yaml
+```
+
+**2. Point Claude Code at your proxy**
+
+```bash
+claude config set apiBaseUrl http://your-proxy:4000
+```
+
+Or set via environment:
+
+```bash
+export ANTHROPIC_BASE_URL=http://your-proxy:4000
+export ANTHROPIC_API_KEY=sk-your-litellm-key
+```
+
+**3. Use Claude Code normally** — all traffic now routes through LiteLLM.
+
+## Guides
+
+<CardGroup cols={2}>
+  <Card title="Responses API" icon="message" href="/tutorials/claude_responses_api">
+    Use the Responses API format with Claude Code
+  </Card>
+  <Card title="Max Subscription" icon="crown" href="/tutorials/claude_code_max_subscription">
+    Route Max subscription users through LiteLLM
+  </Card>
+  <Card title="Customer Cost Tracking" icon="users" href="/tutorials/claude_code_customer_tracking">
+    Track spend per developer / team
+  </Card>
+  <Card title="Prompt Cache Routing" icon="database" href="/tutorials/claude_code_prompt_cache_routing">
+    Optimize prompt caching for Claude Code
+  </Card>
+  <Card title="Web Search" icon="magnifying-glass" href="/tutorials/claude_code_websearch">
+    Enable web search through LiteLLM
+  </Card>
+  <Card title="MCP Integration" icon="plug" href="/tutorials/claude_mcp">
+    Use MCP tools with Claude Code via LiteLLM
+  </Card>
+  <Card title="Non-Anthropic Models" icon="shuffle" href="/tutorials/claude_non_anthropic_models">
+    Route Claude Code to GPT-4, Gemini, and others
+  </Card>
+  <Card title="Plugin Marketplace" icon="store" href="/tutorials/claude_code_plugin_marketplace">
+    Deploy LiteLLM as a Claude Code plugin
+  </Card>
+</CardGroup>

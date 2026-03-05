@@ -1,0 +1,38 @@
+---
+title: "Windsurf (Codeium)"
+description: "Use LiteLLM Proxy as the OpenAI-compatible backend for Windsurf to route to any model."
+---
+
+Windsurf supports custom OpenAI-compatible endpoints. Point it at LiteLLM Proxy to use any supported LLM while centralizing cost tracking and access control for your team.
+
+## Setup
+
+**1. Start LiteLLM Proxy**
+
+```yaml litellm-config.yaml
+model_list:
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+```
+
+```bash
+litellm --config litellm-config.yaml --port 4000
+```
+
+**2. Configure Windsurf**
+
+In Windsurf **Settings → AI → Custom API**:
+
+- **API Base URL**: `http://your-proxy:4000/v1`
+- **API Key**: your LiteLLM virtual key
+
+**3. Select model** — pick any model configured on your proxy.
+
+## Features with LiteLLM
+
+- **Team cost tracking** — see AI spend per developer in the LiteLLM dashboard
+- **Virtual keys** — issue per-developer keys with spend limits
+- **Model routing** — switch between OpenAI, Anthropic, Bedrock without reconfiguring Windsurf
+- **Guardrails** — add content filtering and PII masking to all IDE traffic
